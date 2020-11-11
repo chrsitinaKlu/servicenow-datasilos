@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_datasilos.RecordAddSiloToSupervisorWhitelist</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>The function adds a silo Iidentified by a sys_id) to the supervisor whitelist field of a given record. If the silo is already whitelisted, no change is made.</description>
+        <name>RecordAddSiloToSupervisorWhitelist</name>
+        <script><![CDATA[function RecordAddSiloToSupervisorWhitelist(record, strNewSiloSysId)
+{
+	var GetStringValue = x_snc_devtools.GetStringValue;
+	var IsValidSysId = x_snc_devtools.IsValidSysId;
+
+	strNewSiloSysId = GetStringValue(strNewSiloSysId);
+	if (IsValidSysId(strNewSiloSysId))
+	{
+		var strSiloSysIds = GetStringValue(record.getValue('x_snc_datasilos_supervisor_whitelist'));
+		if (strSiloSysIds == '')
+		{
+			record.x_snc_datasilos_supervisor_whitelist = strNewSiloSysId;
+			return true;
+		}
+		else
+		{
+			if (strSiloSysIds.includes(strNewSiloSysId) == false)
+			{
+				record.x_snc_datasilos_supervisor_whitelist = strSiloSysIds + ',' + strNewSiloSysId; 
+				return true;
+			}
+		}
+	}
+	return false;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-07-30 16:41:12</sys_created_on>
+        <sys_id>a76ee1c6db929450ba15a353059619ea</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>RecordAddSiloToSupervisorWhitelist</sys_name>
+        <sys_package display_value="DataSilos" source="x_snc_datasilos">dafbffebdbb78450ba15a353059619eb</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="DataSilos">dafbffebdbb78450ba15a353059619eb</sys_scope>
+        <sys_update_name>sys_script_include_a76ee1c6db929450ba15a353059619ea</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-10-02 12:58:42</sys_updated_on>
+    </sys_script_include>
+</record_update>
